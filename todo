@@ -1,0 +1,9 @@
+Seperate modules for seperate functions
+
+Use dependency injections to use different modules
+
+Splitting code into different methods
+
+Catching errors (try, except)
+
+Arguments are passed as flags
