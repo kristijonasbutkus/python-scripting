@@ -10,6 +10,11 @@ import subprocess
 #	writer.writerow(row)
 #	f.close()
 
+modem_info = {
+    "manufacturer": "",
+    "model": "",
+}
+
 def get_modem_manager_status():
     return os.system("systemctl is-active --quiet ModemManager.service")
 
@@ -33,17 +38,22 @@ def modem_manager_action(action):
     except Exception as e:
         print(e)
 
-def get_usb_modem_model():
-    if get_modem_manager_status() == 0:
-        #temp = os.system('mmcli -L')
-        output = subprocess.check_output("mmcli -m 0 | grep 'model:'", shell=True).decode('ASCII')
-        a = (output.partition(':')[2]).split()
-        #arr = a.split()
-        print('\n{}\n'.format(a))
+def get_modem_information(arg):
+    try:
+        if get_modem_manager_status() != 0:
+            modem_manager_action('stop')
+        bash_string = "mmcli -m 0 | grep '{}:'".format(arg)
+        output_model = subprocess.check_output(bash_string, shell=True).decode('ASCII')
+        modem_model = output_model.partition(':')[2]
+        return modem_model
+    except Exception as e:
+        print(e)
 
 def main():
-    get_usb_modem_model()
-
+    model = get_modem_information('model')
+    print(model)
+    manufacturer = get_modem_information('manufacturer')
+    print(manufacturer)
 
 if __name__ == "__main__":
     main()
