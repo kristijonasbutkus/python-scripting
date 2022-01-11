@@ -114,15 +114,7 @@ def get_modem_manufacturer(cmd):
 
 
 def main():
-	#parser_check()
-	#print(check_at_response(b'ATE1\r'))
-	#get_at_response(b'ATE1\r')
-	#ser.write(b'ATE1\r')
-		#get_modem_manufacturer(b'AT+GMI\r')
-	get_at_response(b'AT+GMI\r')
-	#ser.write(b'AT+CMGF=1\r')
-	#send_sms(sms_body, number)
-	#parser_check()
+	
 	ser.close()
 
 if __name__ == "__main__":

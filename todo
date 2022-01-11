@@ -7,3 +7,11 @@ Splitting code into different methods
 Catching errors (try, except)
 
 Arguments are passed as flags
+
+
+Testo veikimo metu turi būti galimybė matyti terminale šią informaciją:
+    koks gaminys yra testuojamas
+    kokia komanda yra testuojama šiuo metu
+    kiek komandų sėkmingai praėjo testavimą
+    kiek komandų nesėkmingai praėjo testavimą
+    kiek viso komandų yra testavimui
