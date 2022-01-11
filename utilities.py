@@ -28,7 +28,6 @@ class Device:
     def json_extract(obj, key):
         arr = []
         def extract(obj, arr, key):
-            """Recursively search for values of key in JSON tree."""
             if isinstance(obj, dict):
                 for k, v in obj.items():
                     if isinstance(v, (dict, list)):
@@ -50,6 +49,4 @@ class Device:
                 csv_writer.writerows(x)
         except Exception as e:
             print(e)
-
-
 
