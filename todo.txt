@@ -1,12 +1,10 @@
-Seperate modules for seperate functions
++-Seperate modules for seperate functions
 
-Use dependency injections to use different modules
+!Use dependency injetion to choose betweem serial and ssh connections
 
-Splitting code into different methods
+!Catching errors (try, except)
 
-Catching errors (try, except)
-
-Arguments are passed as flags
++Arguments are passed as flags
 
 
 Testo veikimo metu turi būti galimybė matyti terminale šią informaciją:
@@ -15,3 +13,9 @@ Testo veikimo metu turi būti galimybė matyti terminale šią informaciją:
     kiek komandų sėkmingai praėjo testavimą
     kiek komandų nesėkmingai praėjo testavimą
     kiek viso komandų yra testavimui
+
+
+    1) ARGS PARSE
+    2) CONFIG LOAD
+    3) Connection LOAD
+    4) TESTING (terminal printing)

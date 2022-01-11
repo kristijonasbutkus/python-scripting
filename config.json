@@ -2,7 +2,6 @@
     "device": [
       {
         "id" : 5,
-        "manufacturer": "",
         "model": "trm240",
         "connection_type": "serial",
         "commands": [
@@ -31,7 +30,7 @@
             "expects": "OK"
           },
           {
-            "command": "AT+QPINC",
+            "command": "AT+QPINC=?",
             "expects": "OK"
           }
         ]

@@ -7,7 +7,7 @@ class Extras:
 
     def modem_manager_action(action):
         try:
-            mm_status = get_modem_manager_status()
+            mm_status = None#get_modem_manager_status()
             if action == 'stop':
                 if mm_status == 0:         # 0 means service is active, 768 - inactive
                     print('Stopping Modem manager service..')
