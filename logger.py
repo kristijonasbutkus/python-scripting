@@ -7,12 +7,13 @@ class logger:
     def __init__(self, connection_type):
         self.__logger = self.__load_module(connection_type)
         if not self.__logger:
-            exit("Unable to load logger")
+            print("Unable to load logger")
 
     def __load_module(self, connection_type):
         module = None
         try:
             module = __import__('modules.{type}Log'.format(type=connection_type), fromlist=['modules'])
+            print('trying to load')
             return module.LoggerConection()
         except:
             return False
@@ -28,7 +29,8 @@ class logger:
 
 # log = logger("sqlite")
 log = logger("file")
-log.open_log(None)
+print(log)
+log.open_log("/home/studentas/akademija/code/output/output.csv")
 log.write_to_log(0, "Info message", time.time())
 log.write_to_log(1, "Warning message", time.time())
 log.write_to_log(2, "Error message", time.time())

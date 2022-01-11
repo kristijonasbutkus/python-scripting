@@ -5,7 +5,7 @@ class LoggerConnection:
 
     def open_log(self, file):
         if not file:
-            file = "/home/kristijonas/Python/python-scripting/log/logger.log"
+            file = "/home/studentas/akademija/code/output/output.csv"
         try:
             log = open(file, "a+")
             self.__logFile = log
