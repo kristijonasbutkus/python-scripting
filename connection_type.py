@@ -1,35 +1,19 @@
-import time
+import importlib
 
-class connection_type:
+class Connection_type:
 
-    __logger = None
+    __connection = None
 
     def __init__(self, conType):
-        self.__logger = self.__load_module(conType)
-        if not self.__logger:
-            exit("Unable to load logger")
+        self.__connection = self.__load_module(conType)
+        if not self.__connection:
+            exit("Unable to load connection module")
 
     def __load_module(self, conType):
         module = None
         try:
-            module = __import__('modules.{type}Log'.format(type=conType), fromlist=['modules'])
-            return module.loggerCon()
-        except:
-            return False
-
-    def open_log(self, file):
-        self.__logger.open_log(file)
-
-    def close_log(self):
-        self.__logger.close_log()
-
-    def write_to_log(self, level, message, timestamp):
-        self.__logger.write_to_log(level, message, timestamp)
-
-# log = logger("sqlite")
-#log = logger("file")
-#log.open_log(None)
-#log.write_to_log(0, "Info message", time.time())
-#og.write_to_log(1, "Warning message", time.time())
-#og.write_to_log(2, "Error message", time.time())
-#og.close_log()
+            module = importlib.import_module('{type}'.format(type=conType))
+            print('successfully loaded connection module with connection type {type}'.format(type=conType))
+            return module.connection_type()
+        except Exception as e:
+            print(e)

@@ -1,25 +1,24 @@
-import json
+import serial
 import re
-class Utils:   
 
-    def is_json(myjson):
+class connection_type:
+
+    def __init__(self):
         try:
-            json.loads(myjson)
-        except ValueError as e:
-            return False
-        return True
+            ser = serial.Serial(port='/dev/ttyUSB3', baudrate=115200, timeout=0)
+        except:
+            print("Could not create serial connection")
+        finally:
+            print('serial connection established.')
 
-    def get_commands(self, config):
-        if not self.is_json:
-            return None
-        return config["commands"]
+    #def __del__(self):
+        #self.connection_close(serial)
+     #   print('destructor ended program life')
 
-    def get_model(self, config):
-        if not self.is_json:
-            return None
-        return config["model"]
+    def connection_close():
+        pass
 
-    def get_serial_response(cmd, ser):
+    def get_serial_response(cmd, ser : serial):
         try:
             byte_flow = b''
             ser.write(cmd)

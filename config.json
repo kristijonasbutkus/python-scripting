@@ -1,9 +1,76 @@
 {
     "device": [
       {
-        "id" : 5,
         "model": "trm240",
         "connection_type": "serial",
+        "commands": [
+          {
+            "command": "ATI",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CIMI=!",
+            "expects": "ERROR"
+          },
+          {
+            "command": "AT+GMM",
+            "expects": "OK"
+          },
+          {
+            "command": "AT&V",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CCLK=?",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+GMM",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+QPINC=?",
+            "expects": "OK"
+          }
+        ]
+      },
+      {
+        "model": "rutx11",
+        "connection_type": "ssh",
+        "commands": [
+          {
+            "command": "ATI",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CIMI=?",
+            "expects": "ERROR"
+          },
+          {
+            "command": "AT+GMM",
+            "expects": "OK"
+          },
+          {
+            "command": "AT&V",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CCLK=?",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+GMM",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+QPINC=?",
+            "expects": "OK"
+          }
+        ]
+      },
+      {
+        "model": "rut950",
+        "connection_type": "ssh",
         "commands": [
           {
             "command": "ATI",
