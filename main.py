@@ -21,7 +21,7 @@ class Program:
             python_dict = Config_file().load_json_config()
             
             device_list = Config_file.put_devices_to_list(python_dict)
-            print('dfasdfas')
+
             for x in range(len(python_dict['device'])):
                 print (device_list['device'][x])
                 print('')
