@@ -3,9 +3,9 @@ import argparse
 class Parsing:
 
     def __init__(self):
-        self.parse_flags()      
+        self.parseFlags()      
 
-    def parse_flags():
+    def parseFlags():
         parser = argparse.ArgumentParser(prog='modem testing', description='AT commands testing tool',
             epilog='Made by Kristijonas Butkus')
         parser.add_argument('-d', '--device', help='Provide device for testing. TRM240, RUTX11, RUT950', required=True, action='store')

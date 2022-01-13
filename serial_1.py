@@ -1,6 +1,5 @@
-import serial
 import re
-
+import serial
 class connection_type:
 
     def __init__(self):

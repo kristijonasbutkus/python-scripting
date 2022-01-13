@@ -1,7 +1,6 @@
 from collections import namedtuple
 import json
 from tokenize import String
-from types import SimpleNamespace
 from typing import List
 
 class ConfigUtils:
