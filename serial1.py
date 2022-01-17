@@ -5,7 +5,7 @@ class ConnectionType:
 
     def __init__(self):
         try:
-            serial.Serial.__init__(self)
+            #serial.Serial.__init__(self)
             self.ser = serial.Serial(port='/dev/ttyUSB2', baudrate=115200, timeout=0.5)
         except:
             print("Could not create serial connection")
@@ -19,6 +19,12 @@ class ConnectionType:
 
 class SerialUtils:
 
+    def getCommands(Device):
+        return Device.commands
+
+    def getConnectionType(Device):
+        return Device.connection_type
+        
     def testCommand(cmd, ser):
         try:
             byte_flow = b''
@@ -32,16 +38,6 @@ class SerialUtils:
                     return "ERROR"
         except Exception as e:
             print('Exception caught: {}'.format(e))
-    #--
-    def getCommands(self, deviceList):
-        if not self.isJson:
-            return None
-        return deviceList["commands"]
-    #--
-    def getModel(self, config):
-        if not self.isJson:
-            return None
-        return config["model"]
 
     def commandEncode(cmd):
         if isinstance(cmd, str):
