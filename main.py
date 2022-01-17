@@ -20,8 +20,16 @@ class Program:
             #contype = 'serial_1'
             #ConnectionModule.Connection_type(contype)
 
-        except Exception as e:
-            print(e)
+        except Exception as ex:
+            #print(e)
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            print(message)
+        finally:
+            if ser.isOpen() == True:
+                ser.close()
+            else:
+                print('Connection was never opened.')
 
 
     if __name__ == "__main__":
