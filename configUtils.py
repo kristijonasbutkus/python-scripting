@@ -20,8 +20,7 @@ class ConfigUtils:
     def loadJsonConfig(config = "config.json"):
         try:
             with open(config, "r", encoding="utf-8") as jsonFile:
-                return json.load(jsonFile)
-                
+                return json.load(jsonFile)   
         except:
             print('Could not load json config')  
 
@@ -48,6 +47,11 @@ class ConfigUtils:
         except Exception as e:
             print(e)
 
-    
+    def getCommands(Device):
+        return Device.commands
+
+    def getConnectionType(Device):
+        return Device.connection_type
+        
 
 

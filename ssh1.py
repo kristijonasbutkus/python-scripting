@@ -1,4 +1,4 @@
-class connectionType:
+class sshConnection:
 
     def __init__(self):
         self.open_connection()
