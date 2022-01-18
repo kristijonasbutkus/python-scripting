@@ -1,9 +1,12 @@
 from collections import namedtuple
+from csv import writer
+import csv
+import datetime
 import json
+import logging
+import io
 
 class ConfigUtils:
-
-    __config = None
 
     def __init__(self, config = "config.json"):
         self.__loadConfig(config)
@@ -53,7 +56,10 @@ class ConfigUtils:
     def getConnectionType(Device):
         return Device.connection_type
         
-    #def saveToCSV(content):
-        
-
+    def saveToCSV(contentList, userSelectedDevice):
+        fileName = "output/{}-".format(userSelectedDevice) + datetime.datetime.now().strftime("%Y-%m-%d-%H-%M")+".csv"
+        with open(fileName , 'a+', newline='') as log:
+            csvWriter = csv.writer(log)
+            csvWriter.writerow(("Test{}".format(contentList[0]),"Command:{}".format(contentList[1]),
+            "response:{}".format(contentList[2]),"expected:{}".format(contentList[3]),"outcome:{}".format(contentList[4])))
 

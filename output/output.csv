@@ -1,7 +1,0 @@
-b'ATI\r',OK,OK
-b'AT+CIMI=!\r',ERROR,ERROR
-b'AT+GMM\r',OK,OK
-b'AT&V\r',OK,OK
-b'AT+CCLK=?\r',OK,OK
-b'AT+GMM\r',OK,OK
-b'AT+QPINC=?\r',OK,OK
