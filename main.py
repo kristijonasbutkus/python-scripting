@@ -7,9 +7,11 @@ from time import sleep
 from cmd_parser import Parsing as parser
 import connection_type as ConnectionModule
 from configUtils import ConfigUtils as configUtils
-from serial1 import serialUtils
+from serialConnection import serialUtils
 import globals
 import types
+import serial
+import csv
 class Program:
 
     
@@ -28,30 +30,36 @@ class Program:
 
             #print('Found {} commands for device {}'.format(commandCount, userSelectedDevice))
 
-            #ser = serial.Serial(port='/dev/ttyUSB2', baudrate=115200, timeout=0.5)
+            ser = serial.Serial(port='/dev/ttyUSB2', baudrate=115200, timeout=0.5)
             #ConnectionModule.Connection_type(deviceConnectionType + "1")
-            print('imported modules: {}'.format(sys.modules.keys))
 
-            a = ConnectionModule.Connection_type(deviceConnectionType + "1")
-            ser = a()
-            print(type(ser))
+            #a = ConnectionModule.Connection_type(deviceConnectionType + "1")
+            #print(type(a))
             
             successCounter = 0
-            failureCuonter = 0
+            failureCounter = 0
 
-            #for x in deviceCommandList:
-            #    cmd = SerialUtils.commandEncode(x['command'])
-            #    answer = SerialUtils.testCommand(cmd, serObj)
-            #    print('cmd: {0}, answer: {1} (expected: {2})'.format(cmd, answer, x['expects']))
-            #    if answer == x['expects']:
-            #        successCounter += 1
-            #    else:
-            #       failureCuonter += 1
-                #sleep(0.5)    # sleep is used to ensure that AT commands 
-                            # have enough time to be processed
-                            # disabing this option could result in errors
+            with open('output/output.csv', 'a') as file:
+                for x in deviceCommandList:
+                    results = []
+                    cmd = serialUtils.commandEncode(x['command'])
+                    results.append(cmd)
+                    answer = serialUtils.testCommand(cmd, ser)
+                    results.extend([answer, x['expects']])
+                    print('cmd: {0}, answer: {1} (expected: {2})'.format(cmd, answer, x['expects']))
+                    if answer == x['expects']:
+                        successCounter += 1
+                    else:
+                        failureCounter += 1
+
+                    writer = csv.writer(file)
+                    writer.writerow(results)
+                    #sleep(0.5)    # sleep is used to ensure that AT commands 
+                                # have enough time to be processed
+                                # disabing this option could result in errors
           
-            #print('successful commands: {0}, failures: {1}'.format(successCounter, failureCuonter))
+            print('successful commands: {0}, failures: {1}'.format(successCounter, failureCounter))
+
 
             
 

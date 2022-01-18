@@ -53,5 +53,7 @@ class ConfigUtils:
     def getConnectionType(Device):
         return Device.connection_type
         
+    #def saveToCSV(content):
+        
 
 

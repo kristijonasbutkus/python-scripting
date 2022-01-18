@@ -7,6 +7,9 @@ class serialConnection():
     def __init__(self):
             self.ser = serial.Serial(port='/dev/ttyUSB2', baudrate=115200, timeout=0.5)
 
+    def connect(self, port, baudrate, timeout):
+        self.ser = serial.Serial(port='/dev/ttyUSB2', baudrate=115200, timeout=0.5)
+
     def close(self):
         self.close()
         
