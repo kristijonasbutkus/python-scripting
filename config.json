@@ -9,7 +9,7 @@
             "expects": "OK"
           },
           {
-            "command": "AT+CIMI=!",
+            "command": "AT+CIMII=!",
             "expects": "ERROR"
           },
           {

@@ -7,23 +7,31 @@ class Connection_type():
     def __init__(self, conType):
         self.__connection = self.__load_module(conType)
         if not self.__connection:
-            exit("Unable to load connection module {}".format(conType))
+            raise Exception("Unable to load connection module {}".format(conType))
 
     def __load_module(self, conType):
         module = None
         try:
             classifier = "{type}".format(type=conType) + "Connection"
             module = importlib.import_module('{x}'.format(x=classifier))
-            return type(module.Connection())
+            return module.Connection()
         except Exception as e:
             print(e)
-        finally:
-            importlib.invalidate_caches()
-            print('successfully loaded connection module with connection type {type}'.format(type=conType))
+        #finally:
+        #    print('successfully loaded connection module with connection type {type}'.format(type=conType))
 
-    def open(self):
-        self.open()
+    def __del__(self):
+        self.__connection.__closeConnection__()
 
-    def close(self):
-        self.close()
+    #def __closeConnection__(self):
+    #    if self.__connection.
+    #       del self
 
+    def execCommand(self, cmd):
+        return self.__connection.execCommand(cmd)
+
+    def execAllCommandsInList(self, commandList):
+        return self.__connection.execAllCommandsInList(commandList)   
+
+    def saveToCSV(self, contentList, userSelectedDevice):
+        return self.__connection.saveToCSV(contentList, userSelectedDevice)
