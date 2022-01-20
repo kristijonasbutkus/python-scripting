@@ -4,57 +4,39 @@ import json
 import sys
 from collections import namedtuple
 from time import sleep
-from cmd_parser import Parsing as parser
-import connection_type as ConnectionModule
-from configUtils import ConfigUtils as configUtils
-from modules.device import Device
+from cmd_parser import Parser
+from connection_type import ConnectionDriver
+from configUtils import Configuration as JsonConfig
 class Program:
 
     def main():
         try:
-            
-            userFlags = parser.parseFlags()
-            userSelectedDevice = userFlags['device']
+            cmdParser = Parser()
+
+            userSelectedDevice = cmdParser.getFlag()['device']
+            #print(userSelectedDevice)
             print('user selected device: {}'.format(userSelectedDevice))
+
+            configuration = JsonConfig()
             
-            config = configUtils()
-
-            print(config.configas)
-            list = config.getDevicesFromConfig(config.configas)
-            print(list)
-
-
-
-
-            #with open("config.json", "r", encoding="utf-8") as json_file:
-               # __config = json.load(json_file)
-
-            #print(config)
-
-            #device1 = Device("device", "trm240", 'serial', 'commandz')
-           # config.getDevicesFromConfig
-            #a = config.getDevicesFromConfig(config)
-            #print(a)
-
-            #deviceListFromConfig = config.getDevicesFromConfig(config)
+            finalDevice = configuration.getUserRequestedDevice(configuration.configas)
+            print(finalDevice)
+            ###deviceCommandList = finalDevice.getCommandList()
+            #deviceConnectionType = finalDevice.getConnectionType()
+            commandList = finalDevice.getCommands()
+            print(commandList)
+            print('aaa')
 
 
-            #print(deviceListFromConfig)
-            #FinalDevice = configUtils.getDevice(userSelectedDevice, deviceListFromConfig2)
-            #print(FinalDevice)
-            #FinalDevice2 = Device()
-            #deviceCommandList = configUtils.getCommands(FinalDevice)
-            #deviceConnectionType = configUtils.getConnectionType(FinalDevice)
-            #commandCount = len(deviceCommandList)
-            #print('Found {} commands for device {}'.format(commandCount, userSelectedDevice))
-            #print(deviceCommandList)
+
+
+            print('Found {} commands for device {}'.format(len(finalDevice.getCommandList()), userSelectedDevice))
             
-
-            
-            #connection = ConnectionModule.Connection_type(deviceConnectionType)
-            #x = connection.execCommand('AT+CIMI=!')
+            connection = ConnectionDriver(finalDevice.getConnectionType())
+            #x = connection.execCommand('ATE')
+            #print(type(x))
             #print(x)
-            #connection.execAllCommandsInList(deviceCommandList)
+            #connection.execAllCommands(finalDevice)
             
 
             

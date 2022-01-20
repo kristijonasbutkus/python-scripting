@@ -1,14 +1,30 @@
+import sys
 import argparse
 
-class Parsing:
+class Parser:
+    
+    __parser = None
+    __flags = None
+    __args = None
 
     def __init__(self):
-        self.parseFlags()      
+        self.__parser = self.__loadParser()
+        self.__flags = vars(self.__parser)
+        if not self.__parser:
+            raise Exception("unable to initiate parser")     
 
-    def parseFlags():
-        parser = argparse.ArgumentParser(prog='modem testing', description='AT commands testing tool',
-            epilog='Made by Kristijonas Butkus')
-        parser.add_argument('-d', '--device', help='Provide device for testing. TRM240, RUTX11, RUT950', required=True, action='store')
-        parser.add_argument('-f', '--file', help='Take arguments from file', action='store')
-        args = parser.parse_args()
-        return vars(args)
+    def __loadParser(self):
+        try:
+            self.__parser = argparse.ArgumentParser(
+                prog='modem testing with AT commands', 
+                description='AT commands testing tool',
+                epilog='Made by Kristijonas')
+            self.__parser.add_argument('-d', '--device', help='Provide device for testing. Available devices: trm240, rutx11, rut950', required=True, action='store')
+            self.__parser.add_argument('-f', '--file', help='Take arguments from file', required=False, action='store')
+            self.__args = self.__parser.parse_args()
+            return self.__args
+        except:
+            return None      
+
+    def getFlag(self):
+        return self.__flags

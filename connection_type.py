@@ -1,6 +1,8 @@
 import importlib
 
-class Connection_type():
+from modules.device import Device
+
+class ConnectionDriver():
 
     __connection = None
 
@@ -23,15 +25,15 @@ class Connection_type():
     def __del__(self):
         self.__connection.__closeConnection__()
 
-    #def __closeConnection__(self):
-    #    if self.__connection.
-    #       del self
+    def __closeConnection__(self):
+        if self.__connection:
+           del self
 
     def execCommand(self, cmd):
         return self.__connection.execCommand(cmd)
 
-    def execAllCommandsInList(self, commandList):
+    def execAllCommands(self, commandList):
         return self.__connection.execAllCommandsInList(commandList)   
 
-    def saveToCSV(self, contentList, userSelectedDevice):
-        return self.__connection.saveToCSV(contentList, userSelectedDevice)
+    def saveToCSV(self, contentList, device : Device):
+        return self.__connection.saveToCSV(contentList, device)
