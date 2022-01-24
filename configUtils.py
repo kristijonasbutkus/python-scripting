@@ -1,6 +1,7 @@
 import csv
 import datetime
 import json
+from pathlib import Path
 from modules.device import Device
 
 class Configuration:
@@ -27,6 +28,7 @@ class Configuration:
                     
     def saveToCSV(self, contentList, device : Device):
         try:
+            Path("output/").mkdir(parents=True, exist_ok=True)
             filename = "%s_%s.%s" % (device.getModel(), datetime.datetime.now().strftime("%Y_%m_%d-%I:%M:%S") ,"csv")
             with open ('output/{filename}'.format(filename=filename), 'a', newline='') as file:
                 writer = csv.writer(file)
