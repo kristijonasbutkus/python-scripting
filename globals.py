@@ -1,3 +1,6 @@
-CTRL_Z = (b'\x1A\r')
-ENTER_KEY = (b'\x0D\r')
+CTRL_Z = b'\x1A\r'
+ENTER_KEY = b'\x0D\r'
 serialPort = '/dev/ttyUSB2'
+sshHost = '192.168.1.1'
+sshUsername = 'root'
+sshPassword = 'Admin123'

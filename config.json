@@ -43,8 +43,8 @@
             "expects": "OK"
           },
           {
-            "command": "AT+CIMI=?",
-            "expects": "ERROR"
+            "command": "AT+GMI",
+            "expects": "OK"
           },
           {
             "command": "AT+GMM",
@@ -63,7 +63,15 @@
             "expects": "OK"
           },
           {
-            "command": "AT+QPINC=?",
+            "command": "AT+COPN",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CSQ",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+QCCID",
             "expects": "OK"
           }
         ]

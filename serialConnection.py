@@ -1,5 +1,3 @@
-import csv
-import datetime
 import re
 import globals
 from time import sleep
@@ -38,10 +36,8 @@ class Connection():
             one_byte = self.__connection.read(1)
             byte_flow += one_byte
             if re.search(b"OK", byte_flow):
-                print(byte_flow)
                 return "OK"
-            elif re.search(b"ERROR", byte_flow):
-                print(byte_flow)	
+            elif re.search(b"ERROR", byte_flow):	
                 return "ERROR"
 
     def execAllTestCommands(self, device : Device):
@@ -78,7 +74,6 @@ class Connection():
                     __failureCounter += 1
                     tempList.append("failure") 
                 resultList.append(tempList)
-                #self.saveToCSV(resultList, device.getModel())
             print('successful commands: {0}, failures: {1} Testing is finished'.format(__successCounter, __failureCounter))
             return resultList
 
@@ -86,17 +81,3 @@ class Connection():
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)
             print(message)
-
-
-    # def send_sms_command(self, body):
-    #     if not self.__connection:
-    #         raise Exception("No connection")
-    #     try:
-    #         ser = serial.Serial(port='/dev/ttyUSB3', baudrate=115200, timeout=0.5)
-    #         ser.write(b'AT+CMGS="+37063841343"\r')
-    #         ser.write(globals.ENTER_KEY)
-    #         final_body = body.encode('ASCII')
-    #         ser.write(final_body)
-    #         ser.write(globals.CTRL_Z)
-    #     except Exception as e:
-    #         print(e)

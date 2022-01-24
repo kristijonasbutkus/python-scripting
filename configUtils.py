@@ -1,7 +1,7 @@
 import csv
 import datetime
 import json
-from pathlib import Path
+import os
 from modules.device import Device
 
 class Configuration:
@@ -18,7 +18,7 @@ class Configuration:
         except:
             print('Could not load json config')  
 
-    def getRequestedDevice(self, dictionary, userSelectedDevice):
+    def getRequestedDeviceFromConfig(self, dictionary, userSelectedDevice):
         for item in dictionary['device']:
                 if item['model'] == userSelectedDevice:
                     return Device(
@@ -26,15 +26,20 @@ class Configuration:
                         item['connection_type'],
                         item['commands'])
                     
-    def saveToCSV(self, contentList, device : Device):
+    def saveToCSV(self, resultList, device : Device):
         try:
-            Path("output/").mkdir(parents=True, exist_ok=True)
+            if not os.path.exists('output/'):
+                os.umask(0)
+                os.makedirs('output/')
+                os.chmod("output/", 0o777)
+            headerList = ['testID', 'command', 'expectations', 'outcome']
             filename = "%s_%s.%s" % (device.getModel(), datetime.datetime.now().strftime("%Y_%m_%d-%I:%M:%S") ,"csv")
             with open ('output/{filename}'.format(filename=filename), 'a', newline='') as file:
                 writer = csv.writer(file)
-                for x in contentList:
+                writer.writerow(headerList)
+                for x in resultList:
                     writer.writerow(x)
-            print('logging finished')
+            print('Test output can be found in Output folder with name:\n{}'.format(filename))
         except Exception as e:
             print(e)
     

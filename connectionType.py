@@ -7,16 +7,15 @@ class ConnectionDriver():
     __connection = None
 
     def __init__(self, conType):
-        self.__connection = self.__load_module(conType)
+        self.__connection = self.__loadModule(conType)
         if not self.__connection:
             raise Exception("Unable to load connection module {}".format(conType))
 
-    def __load_module(self, conType):
+    def __loadModule(self, conType):
         module = None
         try:
             classifier = "{type}".format(type=conType) + "Connection"
             module = importlib.import_module('{x}'.format(x=classifier))
-            print(classifier)
             return module.Connection()
         except Exception as e:
             print(e)
@@ -29,10 +28,7 @@ class ConnectionDriver():
            del self
 
     def execSingleTestCommand(self, cmd):
-        return self.__connection.execCommand(cmd)
+        return self.__connection.execSingleTestCommand(cmd)
 
-    def execAllTestCommands(self, commandList):
-        return self.__connection.execAllTestCommands(commandList)   
-
-    def saveToCSV(self, contentList, device : Device):
-        return self.__connection.saveToCSV(contentList, device)
+    def execAllTestCommands(self, device : Device):
+        return self.__connection.execAllTestCommands(device)   

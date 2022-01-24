@@ -5,12 +5,15 @@
 Currently supports Teltonika TRM240 modem, RUTX11 and RUT950 routers.
 
 Requirements to be installed: 
-    - Python3 
-    - pyserial
+    Python3 
+    pyserial (for serial connection)
+    paramiko (for ssh connection)
 
 Device port can be set in globals.py file
 
-ModemManager service should be stopped or disabled before using the tool
+If testing serial device, ModemManager service should be stopped or disabled
+If testing ssh device, following code has to be executed before:
+<b>sudo socat /dev/tty,raw,echo=0,escape=0x03 /dev/ttyUSB3,raw,s3,raw,setsid,sane,echo=0,nonblock ; stty sane<b> (also requires socat installed)
 
 Usage example:
 
