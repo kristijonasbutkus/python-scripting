@@ -1,10 +1,9 @@
 import csv
 import datetime
 import re
+import globals
 from time import sleep
-from urllib import response
 import serial
-from configUtils import Configuration
 from modules.device import Device
 
 class Connection():
@@ -14,11 +13,11 @@ class Connection():
     def __init__(self): 
         self.__connection = self.__openConnection__()
         if not self.__connection:
-            raise Exception("unable to connect")
+            raise Exception("unable to establish serial connection")
         
     def __openConnection__(self):
         try:
-            return serial.Serial(port='/dev/ttyUSB2', baudrate=115200, timeout=0.5)
+            return serial.Serial(port=globals.serialPort, baudrate=115200, timeout=0.5)
         except:
             return None
 
@@ -29,7 +28,7 @@ class Connection():
         if self.__connection:
             self.__connection.close()
 
-    def execCommand(self, cmd):
+    def execSingleTestCommand(self, cmd):
         if not self.__connection:
             raise Exception("No connection")
         byte_flow = b''
@@ -45,19 +44,20 @@ class Connection():
                 print(byte_flow)	
                 return "ERROR"
 
-    def execAllCommands(self, device : Device):
+    def execAllTestCommands(self, device : Device):
         if not self.__connection:
             raise Exception("No connection")
         __successCounter = 0
         __failureCounter = 0
         __iter = 1
         __atResponse = ''
+        resultList = []
         try:
-            for x in device.getCommandList():
-                print('testing command {0}'.format(x))
+            for x in device.commands:
+                print('testing command {0}, expected outcome: {1}'.format(x['command'], x['expects']))
                 cmd = x['command'].encode('ASCII') + b'\r'
                 self.__connection.write(cmd)
-                resultList = []
+                tempList = []
                 byte_flow = b''
                 while True:
                     one_byte = self.__connection.read(1)
@@ -68,28 +68,35 @@ class Connection():
                     elif re.search(b"ERROR", byte_flow):	
                         __atResponse = "ERROR"
                         break
-
                 expected = x['expects']
-                resultList.extend([__iter, x['command'], __atResponse, expected])
+                tempList.extend([__iter, x['command'], __atResponse, expected])
                 __iter += 1
                 if __atResponse == expected:
                     __successCounter += 1
-                    resultList.append("success")  
+                    tempList.append("success")  
                 else:
                     __failureCounter += 1
-                    resultList.append("failure") 
-                self.saveToCSV(resultList, device.getModel)
+                    tempList.append("failure") 
+                resultList.append(tempList)
+                #self.saveToCSV(resultList, device.getModel())
             print('successful commands: {0}, failures: {1} Testing is finished'.format(__successCounter, __failureCounter))
+            return resultList
+
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)
             print(message)
 
-    def saveToCSV(self, contentList, device : Device):
-        filename = "%s_%s.%s" % (device.getModel, datetime.datetime.now().strftime("%Y_%m_%d-%I:%M:%S") ,".csv")
-        writer = csv.writer()
-        with open ('output/{filename}'.format(filename=filename), 'a', newline='') as file:
-            writer = csv.writer(file)
-            for x in contentList:
-                writer.writerow(x)
-        
+
+    # def send_sms_command(self, body):
+    #     if not self.__connection:
+    #         raise Exception("No connection")
+    #     try:
+    #         ser = serial.Serial(port='/dev/ttyUSB3', baudrate=115200, timeout=0.5)
+    #         ser.write(b'AT+CMGS="+37063841343"\r')
+    #         ser.write(globals.ENTER_KEY)
+    #         final_body = body.encode('ASCII')
+    #         ser.write(final_body)
+    #         ser.write(globals.CTRL_Z)
+    #     except Exception as e:
+    #         print(e)

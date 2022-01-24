@@ -1,4 +1,5 @@
-from collections import namedtuple
+import csv
+import datetime
 import json
 from modules.device import Device
 
@@ -16,20 +17,22 @@ class Configuration:
         except:
             print('Could not load json config')  
 
-    def getUserRequestedDevice(self, dictionary : dict):
+    def getRequestedDevice(self, dictionary, userSelectedDevice):
+        for item in dictionary['device']:
+                if item['model'] == userSelectedDevice:
+                    return Device(
+                        item['model'],
+                        item['connection_type'],
+                        item['commands'])
+                    
+    def saveToCSV(self, contentList, device : Device):
         try:
-            iterator = 0
-            tempCommandList = []
-            #print(dictionary)
-            for val in dictionary['device']:
-                #print(val)
-                device = Device(
-                    val[iterator]['model'],
-                    val[iterator]['connection_type'],
-                    val[iterator]['commands']),
-                iterator += 1
-            return device
+            filename = "%s_%s.%s" % (device.getModel(), datetime.datetime.now().strftime("%Y_%m_%d-%I:%M:%S") ,"csv")
+            with open ('output/{filename}'.format(filename=filename), 'a', newline='') as file:
+                writer = csv.writer(file)
+                for x in contentList:
+                    writer.writerow(x)
+            print('logging finished')
         except Exception as e:
-            print(e) 
-
+            print(e)
     

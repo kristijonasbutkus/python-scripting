@@ -4,7 +4,6 @@ class Device:
         self.model = model
         self.connection_type = connection_type
         self.commands = commands
-        #self.commandList = self.getCommandList()
 
     def getModel(self):
         return self.model
