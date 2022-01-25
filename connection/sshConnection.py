@@ -3,6 +3,7 @@ import paramiko
 import globals
 from modules.device import Device
 import re
+from colorama import Fore, Style
 
 class Connection():
 
@@ -20,7 +21,6 @@ class Connection():
     def __del__(self):
         if self.__connection:
             self.__connection.close()
-        raise Exception("SSH conenction is not open")
 
     def execSingleTestCommand(self, cmd):
         try:
@@ -37,7 +37,7 @@ class Connection():
             elif re.search("ERROR", _response):
                 return "ERROR"
             else:
-                raise Exception("Regex found nothing")
+                raise Exception("Response did not include OK or ERROR. Answer was: {}".format(_response))
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)
@@ -55,15 +55,17 @@ class Connection():
             self.__channel.send('socat /dev/tty,raw,echo=0,escape=0x03 /dev/ttyUSB3,raw,setsid,sane,echo=0,nonblock ; stty sane\r')
             for x in device.commands:
                 tempList = []
-                print('testing command {}'.format(x['command']))
+                print('testing command {0}, expected outcome: {1}'.format(x['command'], x['expects']))
                 finalCmd = (x['command'] + '\r\n').encode('ASCII')
                 self.__channel.send(finalCmd)
                 sleep(0.5)
                 _response = self.__channel.recv(9999).decode().strip()
                 if re.search("OK", _response):
                     __atResponse = "OK"
+                    print(Fore.GREEN + 'OK' + Style.RESET_ALL)
                 elif re.search("ERROR", _response):
                     __atResponse = "ERROR"
+                    print(Fore.RED + 'ERROR' + Style.RESET_ALL)
                 expected = x['expects']
                 tempList.extend([__iter, x['command'], __atResponse, expected])
                 __iter += 1
@@ -74,9 +76,8 @@ class Connection():
                     __failureCounter += 1
                     tempList.append("failure") 
                 resultList.append(tempList)            
-            print('successful commands: {0}, failures: {1} Testing is finished'.format(__successCounter, __failureCounter))
+            print('successful commands: ' + Fore.GREEN + '{},'.format(__successCounter) + Style.RESET_ALL + ' failures: ' + Fore.RED + '{}'.format(__failureCounter) + Style.RESET_ALL)
             return resultList
-
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)

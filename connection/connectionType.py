@@ -14,7 +14,7 @@ class ConnectionDriver():
     def __loadModule(self, conType):
         module = None
         try:
-            classifier = "{type}".format(type=conType) + "Connection"
+            classifier = "connection.{type}".format(type=conType) + "Connection"
             module = importlib.import_module('{x}'.format(x=classifier))
             return module.Connection()
         except Exception as e:

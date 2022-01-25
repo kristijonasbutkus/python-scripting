@@ -9,19 +9,7 @@
             "expects": "OK"
           },
           {
-            "command": "AT+CIMII=!",
-            "expects": "ERROR"
-          },
-          {
-            "command": "AT+GMM",
-            "expects": "OK"
-          },
-          {
-            "command": "AT&V",
-            "expects": "OK"
-          },
-          {
-            "command": "AT+CCLK=?",
+            "command": "AT+GMI",
             "expects": "OK"
           },
           {
@@ -29,7 +17,19 @@
             "expects": "OK"
           },
           {
-            "command": "AT+QPINC=?",
+            "command": "AT+GMR",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CGMI",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CGMM",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+GSN",
             "expects": "OK"
           }
         ]
@@ -51,27 +51,39 @@
             "expects": "OK"
           },
           {
-            "command": "AT&V",
+            "command": "AT+GMR",
             "expects": "OK"
           },
           {
-            "command": "AT+CCLK=?",
+            "command": "AT+CGMI",
             "expects": "OK"
           },
           {
-            "command": "AT+GMM",
+            "command": "AT+CGMM",
             "expects": "OK"
           },
           {
-            "command": "AT+COPN",
+            "command": "AT+GSN",
             "expects": "OK"
           },
           {
-            "command": "AT+CSQ",
+            "command": "AT+CGSN",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CPAS",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CIMI",
             "expects": "OK"
           },
           {
             "command": "AT+QCCID",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CGQREQ",
             "expects": "OK"
           }
         ]
@@ -85,19 +97,7 @@
             "expects": "OK"
           },
           {
-            "command": "AT+CIMI=?",
-            "expects": "ERROR"
-          },
-          {
-            "command": "AT+GMM",
-            "expects": "OK"
-          },
-          {
-            "command": "AT&V",
-            "expects": "OK"
-          },
-          {
-            "command": "AT+CCLK=?",
+            "command": "AT+GMI",
             "expects": "OK"
           },
           {
@@ -105,7 +105,39 @@
             "expects": "OK"
           },
           {
-            "command": "AT+QPINC=?",
+            "command": "AT+GMR",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CGMI",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CGMM",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+GSN",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CGSN",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CPAS",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CIMI",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+QCCID",
+            "expects": "OK"
+          },
+          {
+            "command": "AT+CGQREQ",
             "expects": "OK"
           }
         ]

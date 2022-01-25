@@ -3,6 +3,7 @@ import globals
 from time import sleep
 import serial
 from modules.device import Device
+from colorama import Fore, Style
 
 class Connection():
 
@@ -20,9 +21,6 @@ class Connection():
             return None
 
     def __del__(self):
-        self.__closeConnection__()
-
-    def __closeConnection__(self):
         if self.__connection:
             self.__connection.close()
 
@@ -32,6 +30,7 @@ class Connection():
         byte_flow = b''
         cmd = cmd.encode('ASCII') + b'\r'
         self.__connection.write(cmd)
+        sleep(1)
         while True:
             one_byte = self.__connection.read(1)
             byte_flow += one_byte
@@ -53,6 +52,7 @@ class Connection():
                 print('testing command {0}, expected outcome: {1}'.format(x['command'], x['expects']))
                 cmd = x['command'].encode('ASCII') + b'\r'
                 self.__connection.write(cmd)
+                sleep(0.5)
                 tempList = []
                 byte_flow = b''
                 while True:
@@ -60,9 +60,11 @@ class Connection():
                     byte_flow += one_byte
                     if re.search(b"OK", byte_flow):
                         __atResponse = "OK"
+                        print(Fore.GREEN + 'OK' + Style.RESET_ALL)
                         break
                     elif re.search(b"ERROR", byte_flow):	
                         __atResponse = "ERROR"
+                        print(Fore.RED + 'ERROR' + Style.RESET_ALL)
                         break
                 expected = x['expects']
                 tempList.extend([__iter, x['command'], __atResponse, expected])
@@ -72,11 +74,10 @@ class Connection():
                     tempList.append("success")  
                 else:
                     __failureCounter += 1
-                    tempList.append("failure") 
+                    tempList.append("failure")
                 resultList.append(tempList)
-            print('successful commands: {0}, failures: {1} Testing is finished'.format(__successCounter, __failureCounter))
+            print('successful commands: ' + Fore.GREEN + '{},'.format(__successCounter) + Style.RESET_ALL + ' failures: ' + Fore.RED + '{}'.format(__failureCounter) + Style.RESET_ALL)
             return resultList
-
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)

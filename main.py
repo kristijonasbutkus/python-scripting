@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
-from sys import stdout
-from time import sleep
-from cmdParser import Parser
-from connectionType import ConnectionDriver
-from configUtils import Configuration as JsonConfig
-import paramiko
+from utils.cmdParser import Parser
+from connection.connectionType import ConnectionDriver
+from config.configUtils import Configuration as JsonConfig
+
+import serial
 import globals
 class Program:
 
@@ -14,19 +13,22 @@ class Program:
             cmdParser = Parser()
             userSelectedDevice = cmdParser.getFlag()['device']
             print('user selected device: {}'.format(userSelectedDevice))
-
-            configuration = JsonConfig()
-            finalDevice = configuration.getRequestedDeviceFromConfig(configuration.configas, userSelectedDevice)
-            print('Device {0} uses {1} connection'.format(userSelectedDevice, finalDevice.getConnectionType()))
-
-            print('Found {} testing commands for device {}'.format(len(finalDevice.getCommandList()), userSelectedDevice))
+            configuration = JsonConfig(config="config/config.json")
             
-            connection = ConnectionDriver(finalDevice.getConnectionType()) 
+            if configuration.getRequestedDeviceFromConfig(configuration.configas, userSelectedDevice):
+                finalDevice = configuration.getRequestedDeviceFromConfig(configuration.configas, userSelectedDevice)
+            else: exit("{} device is not supported".format(userSelectedDevice))
+            
+            print('Device {0} uses {1} connection'.format(userSelectedDevice, finalDevice.getConnectionType()))
+            print('Found {} commands for device {}'.format(len(finalDevice.getCommandList()), userSelectedDevice))
+            
+            connection = ConnectionDriver(finalDevice.getConnectionType())
+            
             resultList = connection.execAllTestCommands(finalDevice)
             
             configuration.saveToCSV(resultList, finalDevice)
 
-            print('Device {} testing is finished'.format(finalDevice.getModel()))
+            print('Device {} testing finished'.format(finalDevice.getModel()))
 
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
