@@ -8,7 +8,7 @@ class Program:
     def main():
         try:
             cmdParser = Parser()
-            userSelectedDevice = cmdParser.getFlag()['device']
+            userSelectedDevice = cmdParser.getFlag()['device'].lower()
             print('user selected device: {}'.format(userSelectedDevice))
             configuration = JsonConfig(config="config/config.json")
             
