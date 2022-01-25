@@ -17,13 +17,13 @@ If testing serial device, ModemManager service should be stopped or disabled on 
 
 > systemctl stop ModemManager.service
 
-Usage examples:
+Usage examples
 For serial device: 
 
-<b>sudo python3 main.py -d trm240</b>
+> sudo python3 main.py -d trm240
 
 Note that sudo is needed to access serial port!
 
 For ssh device:
 
-<b>python3 main.py -d rutx11</b>
+> python3 main.py -d rutx11
