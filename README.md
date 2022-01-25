@@ -18,6 +18,7 @@ If testing serial device, ModemManager service should be stopped or disabled on 
 > systemctl stop ModemManager.service
 
 Usage examples
+
 For serial device: 
 
 > sudo python3 main.py -d trm240
