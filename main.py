@@ -3,15 +3,12 @@
 from utils.cmdParser import Parser
 from connection.connectionType import ConnectionDriver
 from config.configUtils import Configuration as JsonConfig
-
-import serial
-import globals
 class Program:
 
     def main():
         try:
             cmdParser = Parser()
-            userSelectedDevice = cmdParser.getFlag()['device']
+            userSelectedDevice = cmdParser.getFlag()['device'].lower()
             print('user selected device: {}'.format(userSelectedDevice))
             configuration = JsonConfig(config="config/config.json")
             
@@ -23,7 +20,6 @@ class Program:
             print('Found {} commands for device {}'.format(len(finalDevice.getCommandList()), userSelectedDevice))
             
             connection = ConnectionDriver(finalDevice.getConnectionType())
-            
             resultList = connection.execAllTestCommands(finalDevice)
             
             configuration.saveToCSV(resultList, finalDevice)
