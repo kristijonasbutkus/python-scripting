@@ -20,6 +20,7 @@ class Program:
             print('Found {} commands for device {}'.format(len(finalDevice.getCommandList()), userSelectedDevice))
             
             connection = ConnectionDriver(finalDevice.getConnectionType())
+            print('Starting tests..')
             resultList = connection.execAllTestCommands(finalDevice)
             
             configuration.saveToCSV(resultList, finalDevice)
