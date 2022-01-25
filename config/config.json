@@ -2,7 +2,7 @@
     "device": [
       {
         "model": "trm240",
-        "connection_type": "serial",
+        "connection_type": "ssh",
         "commands": [
           {
             "command": "ATI",

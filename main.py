@@ -3,14 +3,19 @@
 from utils.cmdParser import Parser
 from connection.connectionType import ConnectionDriver
 from config.configUtils import Configuration as JsonConfig
+import globals
 class Program:
 
     def main():
         try:
             cmdParser = Parser()
-            userSelectedDevice = cmdParser.getFlag()['device'].lower()
+            userSelectedDevice = cmdParser.getFlags()['device'].lower()
+            #if cmdParser.isPortSsh():
+            #    globals.sshHost = cmdParser.getFlags()['port']
+            #else: globals.serialPort = cmdParser.getFlags()['port']
             print('user selected device: {}'.format(userSelectedDevice))
-            configuration = JsonConfig(config="config/config.json")
+            
+            configuration = JsonConfig()
             
             if configuration.getRequestedDeviceFromConfig(configuration.configas, userSelectedDevice):
                 finalDevice = configuration.getRequestedDeviceFromConfig(configuration.configas, userSelectedDevice)
@@ -18,7 +23,7 @@ class Program:
             
             print('Device {0} uses {1} connection'.format(userSelectedDevice, finalDevice.getConnectionType()))
             print('Found {} commands for device {}'.format(len(finalDevice.getCommandList()), userSelectedDevice))
-            
+            print(finalDevice.getConnectionType())
             connection = ConnectionDriver(finalDevice.getConnectionType())
             print('Starting tests..')
             resultList = connection.execAllTestCommands(finalDevice)

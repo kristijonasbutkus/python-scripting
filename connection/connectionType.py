@@ -2,6 +2,8 @@ import importlib
 
 from modules.device import Device
 
+### Connection driver should return specific error if 
+### connection did not load with provided port/ip
 class ConnectionDriver():
 
     __connection = None

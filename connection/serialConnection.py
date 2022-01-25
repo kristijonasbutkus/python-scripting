@@ -1,4 +1,5 @@
 import re
+import subprocess
 import globals
 from time import sleep
 import serial
@@ -49,7 +50,7 @@ class Connection():
         resultList = []
         try:
             for x in device.commands:
-                print('testing command {0}, expected outcome: {1}'.format(x['command'], x['expects']))
+                print('testing command {0}, expected outcome: {1}'.format(x['command'], x['expects']), "Response: ", end="")
                 cmd = x['command'].encode('ASCII') + b'\r'
                 self.__connection.write(cmd)
                 sleep(0.5)
