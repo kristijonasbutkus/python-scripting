@@ -1,30 +1,28 @@
 # python-scripting
 
-<b>CLI tool for device testing<b>
+<b>CLI tool for device testing</b>
 
 Currently supports Teltonika TRM240 modem and RUTX11 router.
 
 Requirements to be installed: 
-    Python3 
-    pyserial (for serial connection)
-    paramiko (for ssh connection)
+> Python3 or higher
+> pyserial (for serial connection)
+> paramiko (for ssh connection)
+> socat (for ssh command sending)
 
-Device port can be set in globals.py file
+Test settings can be changed in globals.py</b>
 
 If testing serial device, ModemManager service should be stopped or disabled on the host machine:
 
-<b>systemctl stop ModemManager.service
-
-If testing ssh device, following code has to be executed before:
-<b>sudo socat /dev/tty,raw,echo=0,escape=0x03 /dev/ttyUSB3,raw,s3,raw,setsid,sane,echo=0,nonblock ; stty sane<b> (also requires socat installed)
+> systemctl stop ModemManager.service
 
 Usage examples:
 For serial device: 
 
-<b>sudo python3 main.py -d trm240<b>
+<b>sudo python3 main.py -d trm240</b>
 
 Note that sudo is needed to access serial port!
 
 For ssh device:
 
-<b>python3 main.py --device rutx11<b>
+<b>python3 main.py --device rutx11</b>
