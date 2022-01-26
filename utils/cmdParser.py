@@ -14,7 +14,6 @@ class Parser:
             raise Exception("unable to initiate parser")     
 
     def __loadParser(self):
-        try:
             self.__parser = argparse.ArgumentParser(
                 prog='[sudo] python3 main.py', 
                 description='AT commands testing tool',
@@ -24,9 +23,7 @@ class Parser:
             self.__parser.add_argument('--port', help='Provide port for serial connection. Example: /dev/ttyUSB3', required=False, action='store')
             self.__parser.add_argument('--file', help='Path to config file', required=False, action='store')
             self.__args = self.__parser.parse_args()
-            return self.__args
-        except:
-            return None      
+            return self.__args     
 
     def getFlag(self, flagName):
         return self.__flags[flagName]

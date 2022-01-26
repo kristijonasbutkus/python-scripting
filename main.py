@@ -19,8 +19,12 @@ class Program:
             else: print('Using default configuration file path {}'.format(globals.configFile))
             
             if cmdParser.isFlagSet('host'):
-                globals.serialPort = cmdParser.getFlag('host')
                 globals.sshHost = cmdParser.getFlag('host')
+                print('User provided ssh host - {}'.format(cmdParser.getFlag('host')))
+            if cmdParser.isFlagSet('port'):
+                globals.serialPort = cmdParser.getFlag('port')
+                print('User provided serial port - {}'.format(cmdParser.getFlag('host')))
+
 
             configuration = Configuration(globals.configFile)
 
