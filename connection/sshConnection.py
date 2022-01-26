@@ -46,10 +46,10 @@ class Connection():
                 _response = self.__channel.recv(9999).decode().strip()
                 if re.search("OK", _response):
                     __atResponse = "OK"
-                    print(Fore.GREEN + 'OK' + Style.RESET_ALL)
+                    print(Fore.GREEN + 'OK' + Style.RESET_ALL, end="\r")
                 elif re.search("ERROR", _response):
                     __atResponse = "ERROR"
-                    print(Fore.RED + 'ERROR' + Style.RESET_ALL)
+                    print(Fore.RED + 'ERROR' + Style.RESET_ALL, end="\r")
                 expected = x['expects']
                 tempList.extend([__iter, x['command'], __atResponse, expected])
                 __iter += 1
@@ -60,7 +60,7 @@ class Connection():
                     __failureCounter += 1
                     tempList.append("failure") 
                 resultList.append(tempList)            
-            print('Successful commands: ' + Fore.GREEN + '{},'.format(__successCounter) + Style.RESET_ALL + ' failures: ' + Fore.RED + '{}'.format(__failureCounter) + Style.RESET_ALL)
+            print('\nSuccessful commands: ' + Fore.GREEN + '{},'.format(__successCounter) + Style.RESET_ALL + ' failures: ' + Fore.RED + '{}'.format(__failureCounter) + Style.RESET_ALL)
             return resultList
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"

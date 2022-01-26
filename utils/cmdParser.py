@@ -16,12 +16,12 @@ class Parser:
     def __loadParser(self):
         try:
             self.__parser = argparse.ArgumentParser(
-                prog='modem testing with AT commands', 
+                prog='[sudo] python3 main.py', 
                 description='AT commands testing tool',
                 epilog='Made by Kristijonas')
-            self.__parser.add_argument('--device', help='Provide device for testing. Available devices: trm240, rutx11, rut950', required=True, action='store')
-            self.__parser.add_argument('--host', help='Provide hostname for ssh/serial connection. Examples: 192.168.1.1; /dev/ttyUSB3', required=False, action='store')
-            self.__parser.add_argument('--port', help='Provide port for ssh connection', required=False, action='store')
+            self.__parser.add_argument('--device', help='Provide device model for testing. Available devices: trm240, rutx11, rut950', required=True, action='store')
+            self.__parser.add_argument('--host', help='Provide hostname for ssh connection. Example: 192.168.1.1', required=False, action='store')
+            self.__parser.add_argument('--port', help='Provide port for serial connection. Example: /dev/ttyUSB3', required=False, action='store')
             self.__parser.add_argument('--file', help='Path to config file', required=False, action='store')
             self.__args = self.__parser.parse_args()
             return self.__args

@@ -6,7 +6,7 @@ serialPort = '/dev/ttyUSB3'
 baudrate = 115200
 
 #ssh settings
-sshHost = '192.168.1.10'
+sshHost = '192.168.1.1'
 sshUsername = 'root'
 sshPassword = 'Admin123'
 sshPort = 22
