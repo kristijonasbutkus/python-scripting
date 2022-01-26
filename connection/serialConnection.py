@@ -1,5 +1,4 @@
 import re
-import subprocess
 import globals
 from time import sleep
 import serial
@@ -10,35 +9,26 @@ class Connection():
 
     __connection = None
 
-    def __init__(self): 
+    def __init__(self, deviceModel): 
+        for model in globals.supportedSerialDeviceList:
+            if not deviceModel == model:
+                    exit('Device does not support serial connection. Check Json config.')
         self.__connection = self.__openConnection__()
         if not self.__connection:
-            raise Exception("unable to establish serial connection")
+            raise Exception("Unable to initialize serial connection")
         
     def __openConnection__(self):
         try:
-            return serial.Serial(port=globals.serialPort, baudrate=115200, timeout=0.5)
-        except:
-            return None
+            return serial.Serial(port=globals.serialPort, baudrate=globals.baudrate, timeout=0.5)
+        except Exception as e:
+            print(e) 
 
     def __del__(self):
         if self.__connection:
             self.__connection.close()
 
-    def execSingleTestCommand(self, cmd):
-        if not self.__connection:
-            raise Exception("No connection")
-        byte_flow = b''
-        cmd = cmd.encode('ASCII') + b'\r'
-        self.__connection.write(cmd)
-        sleep(1)
-        while True:
-            one_byte = self.__connection.read(1)
-            byte_flow += one_byte
-            if re.search(b"OK", byte_flow):
-                return "OK"
-            elif re.search(b"ERROR", byte_flow):	
-                return "ERROR"
+    def canLoad(self):
+        pass
 
     def execAllTestCommands(self, device : Device):
         if not self.__connection:
@@ -77,8 +67,27 @@ class Connection():
                     __failureCounter += 1
                     tempList.append("failure")
                 resultList.append(tempList)
-            print('successful commands: ' + Fore.GREEN + '{},'.format(__successCounter) + Style.RESET_ALL + ' failures: ' + Fore.RED + '{}'.format(__failureCounter) + Style.RESET_ALL)
+            print('Successful commands: ' + Fore.GREEN + '{},'.format(__successCounter) + Style.RESET_ALL + ' failures: ' + Fore.RED + '{}'.format(__failureCounter) + Style.RESET_ALL)
             return resultList
+        except Exception as ex:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            print(message)
+
+    #for testing
+    def execSingleTestCommand(self, cmd):
+        try:
+            byte_flow = b''
+            cmd = cmd.encode('ASCII') + b'\r'
+            self.__connection.write(cmd)
+            sleep(1)
+            while True:
+                one_byte = self.__connection.read(1)
+                byte_flow += one_byte
+                if re.search(b"OK", byte_flow):
+                    return "OK"
+                elif re.search(b"ERROR", byte_flow):	
+                    return "ERROR"
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)

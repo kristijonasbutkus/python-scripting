@@ -19,23 +19,20 @@ class Parser:
                 prog='modem testing with AT commands', 
                 description='AT commands testing tool',
                 epilog='Made by Kristijonas')
-            self.__parser.add_argument('-d', '--device', help='Provide device for testing. Available devices: trm240, rutx11, rut950', required=True, action='store')
-            self.__parser.add_argument('-p', '--port', help='Provide port. Example: /dev/ttyUSB2', required=False, action='store')
-            self.__parser.add_argument('-f', '--file', help='Take arguments from file', required=False, action='store')
+            self.__parser.add_argument('--device', help='Provide device for testing. Available devices: trm240, rutx11, rut950', required=True, action='store')
+            self.__parser.add_argument('--host', help='Provide hostname for ssh/serial connection. Examples: 192.168.1.1; /dev/ttyUSB3', required=False, action='store')
+            self.__parser.add_argument('--port', help='Provide port for ssh connection', required=False, action='store')
+            self.__parser.add_argument('--file', help='Path to config file', required=False, action='store')
             self.__args = self.__parser.parse_args()
             return self.__args
         except:
             return None      
 
-    def getFlags(self):
-        return self.__flags
+    def getFlag(self, flagName):
+        return self.__flags[flagName]
 
-    def isPortSsh(self):
-        regexIpPattern = "^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4}$"
-        regexSerialPattern = "^/dev/+"
-        if re.search(regexIpPattern ,self.getFlags()['port']):
+    def isFlagSet(self, flag):
+        if self.getFlag(flag):
             return True
-        elif re.search(regexSerialPattern ,self.getFlags()['port']):
-            return False
-        else: exit("port is not recognized")
+        else: return False
 
