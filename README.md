@@ -3,6 +3,8 @@
 
 Currently supports Teltonika TRM240 modem and RUTX11 router.
 
+The purpose of the script is to automate AT command sending to provided host using ssh or serial port. After evaluation results are then written to a csv file.
+
 Requirements for running the script:
 ```
 python3 or higher
@@ -13,18 +15,23 @@ socat (for ssh command sending)
 
 Test settings can be changed in <b>globals.py</b>
 
-If testing serial device, ModemManager service should be stopped or disabled on the host machine:
+If testing serial device, ModemManager service should be stopped on the host machine:
 
 > systemctl stop ModemManager.service
 
-Usage examples
+<b>Usage examples</b>
 
-For serial device: 
+For serial device. Atleast 1 flag 'device' has to be provided
 
-> sudo python3 main.py -d trm240
+> sudo python3 main.py --device trm240
 
-Note that sudo is needed to access serial port!
+Note that sudo is needed to access serial port. By default the port is set to /dev/ttyUSB3
 
 For ssh device:
 
-> python3 main.py -d rutx11
+> python3 main.py --device rutx11
+
+To get information about which flags can be provided enter:
+
+> python3 main.py -h
+
