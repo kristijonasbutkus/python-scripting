@@ -13,11 +13,7 @@ paramiko (for ssh connection)
 socat (for ssh command sending)
 ```
 
-Test settings can be changed in <b>globals.py</b>
-
-If testing serial device, ModemManager service should be stopped on the host machine:
-
-> systemctl stop ModemManager.service
+Settings can be changed in <b>globals.py</b> and json configuration file config/config.json
 
 <b>Usage examples</b>
 
